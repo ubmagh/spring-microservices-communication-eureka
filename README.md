@@ -1,4 +1,4 @@
-> this repo was derived/separated from [This one](https://github.com/ubmagh/springboot-microservices)
+> this repo was derived/separated from [This one](https://github.com/ubmagh/springboot-microservices), check it for older commits.
 
 
 # Communicating microservices using eureka (REST apis) With  a gateway
@@ -56,7 +56,34 @@ The [Docker-compose.yaml](./Docker-compose.yaml) is configured properly to run a
 
 ## Running microservices on kubernetes (K8s) :
 
+> if you're working with minikube you may need to pull images locally first example `minikube image pull scoma/spring-ms-tp1_billing-service:v2` 
 
+> after staring the k8s cluster you'll need to apply these config files in order : 
+```
+$ kubectl apply -f .\k8s-eureka.yaml
+$ kubectl apply -f .\k8s-customer.yaml
+$ kubectl apply -f .\k8s-billing.yaml
+$ kubectl apply -f .\k8s-gateway.yaml
+```
+
+> I've set `customer` and `billing` pods on an internal network so that access can be done only through the `gateway`
+
+<p align="center">
+    <img src="./images/4.png">
+</p>
+
+
+> to get access to the `gateway` service i ran the command `minikube tunnel`, then i had access to eureka published services
+
+<p align="center">
+    <img src="./images/5.png">
+</p>
+
+> * this is a test of GET:/customers list api through the gateway : 
+
+<p align="center">
+    <img src="./images/6.png">
+</p>
 
 
 <br>
@@ -73,3 +100,7 @@ https://www.youtube.com/watch?v=_f-LS0Z2CTM
 https://www.youtube.com/watch?v=fXYlKpI_XNk
 
 https://www.youtube.com/watch?v=XRUf6k6YCzA
+
+<br>
+
+> end .<

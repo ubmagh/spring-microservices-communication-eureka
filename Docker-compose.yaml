@@ -21,7 +21,7 @@ services:
       - spring.datasource.url=jdbc:h2:mem:customerdb
       - springdoc.swagger-ui.path=/swagger-ui.html
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
-    # disalbled port mapping so that access is only possible through GateWay
+    # disabled port mapping so that access is only possible through GateWay
     #ports:
     #  - 8082:8082
     depends_on:
