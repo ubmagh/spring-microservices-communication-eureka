@@ -58,13 +58,24 @@ The [Docker-compose.yaml](./Docker-compose.yaml) is configured properly to run a
 
 > if you're working with minikube you may need to pull images locally first example `minikube image pull scoma/spring-ms-tp1_billing-service:v2` 
 
-> after staring the k8s cluster you'll need to apply these config files in order : 
+> after staring the k8s cluster i applied these config files in order to create  : 
 ```
 $ kubectl apply -f .\k8s-eureka.yaml
 $ kubectl apply -f .\k8s-customer.yaml
 $ kubectl apply -f .\k8s-billing.yaml
 $ kubectl apply -f .\k8s-gateway.yaml
+
+#   => to create 
+# {
+#  1: eureka pod
+#  1: gateway pod
+#  2: customer pods
+#  2: billing pods
+# }
 ```
+<p align="center">
+    <img src="./images/7.png">
+</p>
 
 > I've set `customer` and `billing` pods on an internal network so that access can be done only through the `gateway`
 
