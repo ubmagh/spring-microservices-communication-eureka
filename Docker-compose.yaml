@@ -1,0 +1,74 @@
+version: "3.1"
+
+services:
+  eureka-server:
+    image: scoma/spring-ms-tp1_eureka:v2
+    environment:
+      - server.port=8761
+      - eureka.client.fetch-registry=false
+      - eureka.client.register-with-eureka=false
+    ports:
+      - 8761:8761
+
+  customer-service:
+    image: scoma/spring-ms-tp1_customer-service:v2
+    environment:
+      - eureka.instance.prefer-ip-address=true
+      - server.port=8082
+      - spring.application.name=CUSTOMER-SERVICE
+      - spring.h2.console.enabled=true
+      - spring.cloud.discovery.enabled=true
+      - spring.datasource.url=jdbc:h2:mem:customerdb
+      - springdoc.swagger-ui.path=/swagger-ui.html
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+    # disalbled port mapping so that access is only possible through GateWay
+    #ports:
+    #  - 8082:8082
+    depends_on:
+      - eureka-server
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8082/api/health-beat"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+  billing-service:
+    image: scoma/spring-ms-tp1_billing-service:v2
+    restart: on-failure
+    environment:
+      - eureka.instance.prefer-ip-address=true
+      - server.port=8081
+      - spring.application.name=BILLING-SERVICE
+      - spring.h2.console.enabled=true
+      - spring.cloud.discovery.enabled=true
+      - spring.datasource.url=jdbc:h2:mem:billingdb
+      - springdoc.swagger-ui.path=/swagger-ui.html
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+    # disalbled port mapping so that access is only possible through GateWay
+    # ports:
+    #  - 8081:8081
+    depends_on:
+      - customer-service
+      - eureka-server
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8081/api/health-beat"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+
+  gateway-service:
+    image: scoma/spring-ms-tp1_gateway:v2
+    environment:
+      - eureka.instance.prefer-ip-address=true
+      - server.port=8888
+      - spring.application.name=GATEWAY-SERVICE
+      - spring.cloud.discovery.enabled=true
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka
+    ports:
+      - 8888:8888
+    depends_on:
+      - billing-service
+      - customer-service
+      - eureka-server
+
