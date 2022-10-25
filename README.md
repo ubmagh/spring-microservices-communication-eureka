@@ -52,9 +52,24 @@ The [Docker-compose.yaml](./Docker-compose.yaml) is configured properly to run a
     <img src="./images/3.png">
 </p>
 
+* eureka on `http://localhost:8761` : 
+
+<p align="center">
+    <img src="./images/8 docker compose eureka.png">
+</p>
+
+* test billing api on `http://localhost:8888/BILLING-SERVICE/api/invoices` : 
+
+<p align="center">
+    <img src="./images/9 dc test api.png">
+</p>
+
+<br>
 <br>
 
 ## Running microservices on kubernetes (K8s) :
+
+<br>
 
 > if you're working with minikube you may need to pull images locally first example `minikube image pull scoma/spring-ms-tp1_billing-service:v2` 
 
@@ -73,6 +88,16 @@ $ kubectl apply -f .\k8s-gateway.yaml
 #  2: billing pods
 # }
 ```
+[> .\k8s-eureka.yaml](.\k8s-eureka.yaml)
+
+[> .\k8s-customer.yaml](.\k8s-customer.yaml) 
+
+[> .\k8s-billing.yaml](.\k8s-billing.yaml) 
+
+[> .\k8s-gateway.yaml](.\k8s-gateway.yaml) 
+
+<br>
+
 <p align="center">
     <img src="./images/7.png">
 </p>
